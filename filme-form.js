@@ -47,4 +47,27 @@ document.getElementById("formFilme").addEventListener("submit", async function(e
     elenco: document.getElementById("elenco").value,
     sinopse: document.getElementById("sinopse").value
   };
+
+  try {
+    const urlAdicionar = urlApi + "adicionar";
+    const response = await fetch(urlAdicionar, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(filme)
+    });
+
+    const result = await response.json();
+
+    if (response.ok) {
+      alert("Filme cadastrado com sucesso!");
+      document.getElementById("formFilme").reset();
+    } else {
+      alert("Erro ao cadastrar filme: " + (result.mensagem || result.erro));
+    }
+  } catch (error) {
+    console.error("Erro ao enviar filme:", error);
+    alert("Erro ao enviar filme: " + error.message);
+  }
 });
